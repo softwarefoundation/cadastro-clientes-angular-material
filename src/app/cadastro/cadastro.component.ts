@@ -14,7 +14,7 @@ import {NgxMaskDirective, provideNgxMask} from "ngx-mask";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {BrasilapiService} from "../shared/services/brasilapi.service";
 import {Estado, Municipio} from "../shared/models/brasilapi.models";
-import {MatOption, MatSelect, MatSelectModule} from "@angular/material/select";
+import {MatOption, MatSelect, MatSelectChange, MatSelectModule} from "@angular/material/select";
 
 @Component({
     selector: 'app-cadastro',
@@ -75,9 +75,26 @@ export class CadastroComponent implements OnInit {
             next: ufResponse => {
                 this.estados = ufResponse;
                 console.log('Estados carregados: ', ufResponse);
+
+                if (this.cliente.uf) {
+                    this.carregarMunicipios(this.cliente.uf);
+                }
+
             },
             error: err => {
                 this.mostrarMensagem('Erro ao carregar lista de estados!')
+            }
+        });
+    }
+
+    carregarMunicipios(ufSigla: string) {
+        this.brasilApiService.listarMunicipiosPorUF(ufSigla).subscribe({
+            next: municipioResponse => {
+                this.municipios = municipioResponse;
+                console.log('Municípios carregados: ', municipioResponse);
+            },
+            error: err => {
+                this.mostrarMensagem('Erro ao carregar lista de municípios!')
             }
         });
     }

@@ -8,6 +8,8 @@ export class Cliente {
     email?: string;
     dataNascimento?: string;
     deletando = false;
+    uf?: string;
+    municipio?: string;
 
 
     static newCliente() {
