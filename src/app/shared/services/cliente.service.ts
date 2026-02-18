@@ -29,8 +29,13 @@ export class ClienteService {
             return clientes;
         }
 
-        return clientes.filter((cliente) => cliente.nome?.indexOf(nome)  !== -1);
+        return clientes.filter((cliente) => cliente.nome?.indexOf(nome) !== -1);
 
+    }
+
+    pesquisarClientePorUUID(uuid: string): Cliente | undefined {
+        const clientes = this.obterStorage();
+        return clientes.find(cliente => cliente.id === uuid);
     }
 
     private obterStorage(): Cliente[] {

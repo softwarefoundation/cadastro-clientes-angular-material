@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {FormsModule} from "@angular/forms";
 import {MatCardModule} from "@angular/material/card";
@@ -8,6 +8,8 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButton} from "@angular/material/button";
 import {Cliente} from "./cliente";
 import {ClienteService} from "../shared/services/cliente.service";
+import {ActivatedRoute} from "@angular/router";
+import {ValidadorUtils} from "../shared/utils/validador.utils";
 
 @Component({
     selector: 'app-cadastro',
@@ -24,16 +26,36 @@ import {ClienteService} from "../shared/services/cliente.service";
     styleUrl: './cadastro.component.css',
     standalone: true
 })
-export class CadastroComponent {
+export class CadastroComponent implements OnInit {
 
     cliente: Cliente = Cliente.newCliente();
+    private atualizando = false;
 
+    constructor(private clienteService: ClienteService,
+                private route: ActivatedRoute) {
+    }
 
-    constructor(private clienteService: ClienteService) {
+    ngOnInit(): void {
+        this.route.queryParamMap.subscribe((query: any) => {
+                const params = query['params'];
+                const uuid = params['id'];
+                console.log('CadastroComponent -> ngOnInit: ', uuid);
+
+                if (ValidadorUtils.isNotNullAndNotBlank(uuid)) {
+                    let clienteEncontrado = this.clienteService.pesquisarClientePorUUID(uuid) || Cliente.newCliente();
+                    if (clienteEncontrado) {
+                        this.atualizando = true;
+                        this.cliente = clienteEncontrado
+                    }
+                }
+            }
+        )
     }
 
     salvar() {
         console.log('Cliente: ', this.cliente);
         this.clienteService.salvar(this.cliente);
+        this.cliente = Cliente.newCliente();
     }
+
 }
