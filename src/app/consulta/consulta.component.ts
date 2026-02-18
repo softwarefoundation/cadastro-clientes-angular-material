@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {FormsModule} from "@angular/forms";
 import {MatCardModule} from "@angular/material/card";
@@ -23,7 +23,7 @@ import {Cliente} from "../cadastro/cliente";
     styleUrl: './consulta.component.css',
     standalone: true
 })
-export class ConsultaComponent {
+export class ConsultaComponent implements OnInit {
 
     listaClientes: Cliente[] = [];
 
@@ -32,8 +32,8 @@ export class ConsultaComponent {
     }
 
     ngOnInit() {
-      console.log('ngOnInit ->');
-      this.listaClientes = this.clienteService.pesquisarCliente('');
+        console.log('ngOnInit ->');
+        this.listaClientes = this.clienteService.pesquisarCliente('');
     }
 
 }
