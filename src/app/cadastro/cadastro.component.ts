@@ -14,6 +14,7 @@ import {NgxMaskDirective, provideNgxMask} from "ngx-mask";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {BrasilapiService} from "../shared/services/brasilapi.service";
 import {Estado, Municipio} from "../shared/models/brasilapi.models";
+import {MatOption, MatSelect, MatSelectModule} from "@angular/material/select";
 
 @Component({
     selector: 'app-cadastro',
@@ -25,7 +26,9 @@ import {Estado, Municipio} from "../shared/models/brasilapi.models";
         MatInputModule,
         MatIconModule,
         MatButton,
-        NgxMaskDirective
+        NgxMaskDirective,
+        MatSelectModule,
+
     ],
     providers: [
         provideNgxMask(),
