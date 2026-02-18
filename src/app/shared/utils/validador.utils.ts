@@ -12,4 +12,13 @@ export class ValidadorUtils {
         return !this.isNullOrBlank(str);
     }
 
+
+    static isUndefined(value: any): boolean {
+        return value == undefined;
+    }
+
+    static isNotUndefined(value: any): boolean {
+        return !this.isUndefined(value);
+    }
+
 }

@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Cliente} from "../../cadastro/cliente";
+import {ValidadorUtils} from "../utils/validador.utils";
 
 @Injectable({
     providedIn: 'root'
@@ -51,4 +52,15 @@ export class ClienteService {
 
     }
 
+    atualizar(cliente: Cliente) {
+        const storage = this.obterStorage();
+
+        storage.forEach(clienteValue => {
+            if (clienteValue.id == cliente.id) {
+                Object.assign(clienteValue, cliente);
+            }
+        })
+
+        localStorage.setItem(ClienteService.REPO_CLIENTES, JSON.stringify(storage));
+    }
 }
