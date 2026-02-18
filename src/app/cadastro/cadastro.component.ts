@@ -10,6 +10,7 @@ import {Cliente} from "./cliente";
 import {ClienteService} from "../shared/services/cliente.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ValidadorUtils} from "../shared/utils/validador.utils";
+import {NgxMaskDirective, provideNgxMask} from "ngx-mask";
 
 @Component({
     selector: 'app-cadastro',
@@ -20,7 +21,11 @@ import {ValidadorUtils} from "../shared/utils/validador.utils";
         MatFormFieldModule,
         MatInputModule,
         MatIconModule,
-        MatButton
+        MatButton,
+        NgxMaskDirective
+    ],
+    providers: [
+        provideNgxMask(),
     ],
     templateUrl: './cadastro.component.html',
     styleUrl: './cadastro.component.css',
