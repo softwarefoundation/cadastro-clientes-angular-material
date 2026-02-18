@@ -5,6 +5,8 @@ import {MatCardModule} from "@angular/material/card";
 import {MatFormField, MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
+import {ClienteService} from "../shared/services/cliente.service";
+import {Cliente} from "../cadastro/cliente";
 
 @Component({
     selector: 'app-consulta',
@@ -22,5 +24,16 @@ import {MatIconModule} from "@angular/material/icon";
     standalone: true
 })
 export class ConsultaComponent {
+
+    listaClientes: Cliente[] = [];
+
+    constructor(private clienteService: ClienteService) {
+
+    }
+
+    ngOnInit() {
+      console.log('ngOnInit ->');
+      this.listaClientes = this.clienteService.pesquisarCliente('');
+    }
 
 }
