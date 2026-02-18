@@ -5,7 +5,7 @@ import {MatCardModule} from "@angular/material/card";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
-import {MatButton, MatFabButton} from "@angular/material/button";
+import {MatButton} from "@angular/material/button";
 import {Cliente} from "./cliente";
 import {ClienteService} from "../shared/services/cliente.service";
 
@@ -18,7 +18,6 @@ import {ClienteService} from "../shared/services/cliente.service";
         MatFormFieldModule,
         MatInputModule,
         MatIconModule,
-        MatFabButton,
         MatButton
     ],
     templateUrl: './cadastro.component.html',
