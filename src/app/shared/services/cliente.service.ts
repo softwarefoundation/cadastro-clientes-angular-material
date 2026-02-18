@@ -22,7 +22,15 @@ export class ClienteService {
 
 
     pesquisarCliente(nome: string): Cliente[] {
-        return this.obterStorage();
+
+        const clientes: Cliente[] = this.obterStorage();
+
+        if (!nome) {
+            return clientes;
+        }
+
+        return clientes.filter((cliente) => cliente.nome?.indexOf(nome)  !== -1);
+
     }
 
     private obterStorage(): Cliente[] {
