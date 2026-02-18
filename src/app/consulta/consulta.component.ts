@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {FormsModule} from "@angular/forms";
 import {MatCardModule} from "@angular/material/card";
@@ -9,6 +9,7 @@ import {ClienteService} from "../shared/services/cliente.service";
 import {Cliente} from "../cadastro/cliente";
 import {MatTableModule} from "@angular/material/table";
 import {Router} from "@angular/router";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 @Component({
@@ -29,6 +30,7 @@ import {Router} from "@angular/router";
 })
 export class ConsultaComponent implements OnInit {
 
+    private _snackBar = inject(MatSnackBar);
     colunasTable: string[] = ['id', 'nome', 'cpf', 'email', 'dataNascimento', 'acoes'];
     listaClientes: Cliente[] = [];
     nomeBusca: string = '';
@@ -63,9 +65,23 @@ export class ConsultaComponent implements OnInit {
         this.clienteService.deletar(cliente);
         this.deletando = false;
         this.listaClientes = this.clienteService.pesquisarCliente('');
+        this.mostrarMensagemSucesso();
     }
 
     protected cancelarExclusao(cliente: Cliente) {
         cliente.deletando = false;
     }
+
+    mostrarMensagemSucesso() {
+        this.openSnackBar('Cliente excluído com sucesso!', 'Fechar');
+    }
+
+    mostrarMensagemErro() {
+        this.openSnackBar('Erro ao excluir cliente!', 'Fechar');
+    }
+
+    private openSnackBar(message: string, action: string) {
+        this._snackBar.open(message, action);
+    }
+
 }

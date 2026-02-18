@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {FormsModule} from "@angular/forms";
 import {MatCardModule} from "@angular/material/card";
@@ -11,6 +11,7 @@ import {ClienteService} from "../shared/services/cliente.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ValidadorUtils} from "../shared/utils/validador.utils";
 import {NgxMaskDirective, provideNgxMask} from "ngx-mask";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
     selector: 'app-cadastro',
@@ -33,6 +34,7 @@ import {NgxMaskDirective, provideNgxMask} from "ngx-mask";
 })
 export class CadastroComponent implements OnInit {
 
+    private _snackBar = inject(MatSnackBar);
     cliente: Cliente = Cliente.newCliente();
     protected atualizando = false;
 
@@ -69,7 +71,20 @@ export class CadastroComponent implements OnInit {
         } else {
             this.clienteService.salvar(this.cliente);
             this.cliente = Cliente.newCliente();
+            this.mostrarMensagemSucesso();
         }
+    }
+
+    mostrarMensagemSucesso() {
+        this.openSnackBar('Cliente salvo com sucesso!', 'Fechar');
+    }
+
+    mostrarMensagemErro() {
+        this.openSnackBar('Erro ao salvar cliente!', 'Fechar');
+    }
+
+    private openSnackBar(message: string, action: string) {
+        this._snackBar.open(message, action);
     }
 
 }
