@@ -12,6 +12,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ValidadorUtils} from "../shared/utils/validador.utils";
 import {NgxMaskDirective, provideNgxMask} from "ngx-mask";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {BrasilapiService} from "../shared/services/brasilapi.service";
+import {Estado, Municipio} from "../shared/models/brasilapi.models";
 
 @Component({
     selector: 'app-cadastro',
@@ -37,30 +39,44 @@ export class CadastroComponent implements OnInit {
     private _snackBar = inject(MatSnackBar);
     cliente: Cliente = Cliente.newCliente();
     protected atualizando = false;
+    protected estados: Estado[] = [];
+    protected municipios: Municipio[] = [];
 
     constructor(private clienteService: ClienteService,
+                private brasilApiService: BrasilapiService,
                 private route: ActivatedRoute,
                 private routder: Router
     ) {
     }
 
-    ngOnInit()
-        :
-        void {
+    ngOnInit(): void {
         this.route.queryParamMap.subscribe((query: any) => {
-                const params = query['params'];
-                const uuid = params['id'];
-                console.log('CadastroComponent -> ngOnInit: ', uuid);
+            const params = query['params'];
+            const uuid = params['id'];
+            console.log('CadastroComponent -> ngOnInit: ', uuid);
 
-                if (ValidadorUtils.isNotNullAndNotBlank(uuid)) {
-                    let clienteEncontrado = this.clienteService.pesquisarClientePorUUID(uuid) || Cliente.newCliente();
-                    if (clienteEncontrado) {
-                        this.atualizando = true;
-                        this.cliente = clienteEncontrado
-                    }
+            if (ValidadorUtils.isNotNullAndNotBlank(uuid)) {
+                let clienteEncontrado = this.clienteService.pesquisarClientePorUUID(uuid) || Cliente.newCliente();
+                if (clienteEncontrado) {
+                    this.atualizando = true;
+                    this.cliente = clienteEncontrado
                 }
             }
-        )
+        })
+
+        this.carregarUFs();
+    }
+
+    carregarUFs() {
+        this.brasilApiService.listarUFs().subscribe({
+            next: ufResponse => {
+                this.estados = ufResponse;
+                console.log('Estados carregados: ', ufResponse);
+            },
+            error: err => {
+                this.mostrarMensagem('Erro ao carregar lista de estados!')
+            }
+        });
     }
 
     salvar() {
@@ -81,6 +97,10 @@ export class CadastroComponent implements OnInit {
 
     mostrarMensagemErro() {
         this.openSnackBar('Erro ao salvar cliente!', 'Fechar');
+    }
+
+    mostrarMensagem(mensagem: string) {
+        this.openSnackBar(mensagem, 'Fechar');
     }
 
     private openSnackBar(message: string, action: string) {
