@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {Cliente} from "../../cadastro/cliente";
-import {ValidadorUtils} from "../utils/validador.utils";
 
 @Injectable({
     providedIn: 'root'
@@ -62,5 +61,13 @@ export class ClienteService {
         })
 
         localStorage.setItem(ClienteService.REPO_CLIENTES, JSON.stringify(storage));
+    }
+
+    deletar(cliente: Cliente) {
+        const storage = this.obterStorage();
+
+        const clientes = storage.filter(value => value.id !== cliente.id);
+
+        localStorage.setItem(ClienteService.REPO_CLIENTES, JSON.stringify(clientes));
     }
 }
