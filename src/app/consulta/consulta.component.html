@@ -71,15 +71,19 @@
                             Editar
                         </button>
 
-                        @if (deletando) {
+                        @if (cliente.deletando) {
                             <button type="button" mat-button (click)="deletar(cliente)">
-                                <mat-icon fontIcon="edit"></mat-icon>
-                                Excluir
+                                <mat-icon fontIcon="done_outline" style="color: green"></mat-icon>
+                                Confirmar
+                            </button>
+                            <button type="button" mat-button (click)="cancelarExclusao(cliente)">
+                                <mat-icon fontIcon="cancel" style="color: tomato"></mat-icon>
+                                Cancelar
                             </button>
                         } @else {
                             <button type="button" mat-button (click)="prepararDeletar(cliente)">
-                                <mat-icon fontIcon="edit"></mat-icon>
-                                Confirmar
+                                <mat-icon fontIcon="delete" style="color: tomato"></mat-icon>
+                                Excluir
                             </button>
                         }
                     </td>

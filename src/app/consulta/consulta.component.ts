@@ -56,12 +56,16 @@ export class ConsultaComponent implements OnInit {
     }
 
     protected prepararDeletar(cliente: Cliente) {
-        this.deletando = true;
+        cliente.deletando = true;
     }
 
     protected deletar(cliente: Cliente) {
         this.clienteService.deletar(cliente);
         this.deletando = false;
         this.listaClientes = this.clienteService.pesquisarCliente('');
+    }
+
+    protected cancelarExclusao(cliente: Cliente) {
+        cliente.deletando = false;
     }
 }
